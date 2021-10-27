@@ -1,0 +1,35 @@
+
+run > py manage.py shell
+
+>>> from API_Basic.models import Article
+>>> from API_Basic.serializers import ArticleSerializer
+>>> from rest_framework.renderers import JSONRenderer
+>>> from rest_framework.parsers import JSONParser
+>>>
+>>> a= Article(title= 'Article Title', author ='TaHIR', email='tahir@gmail.com')
+>>> a.save()
+>>> serializer=ArticleSerializer(a)
+>>> serializer.data
+{'title': 'Article Title', 'author': 'TaHIR', 'email': 'tahir@gmail.com', 'date': '2021-10-15T15:21:49.738658Z'}
+>>> content=JSONRenderer().render(serializer.data)
+>>> content
+b'{"title":"Article Title","author":"TaHIR","email":"tahir@gmail.com","date":"2021-10-15T15:21:49.738658Z"}'
+>>> serializer= ArticleSerializer(Article.objects.all(), many=True)
+>>> serializer.data
+[OrderedDict([('title', 'Article Title'), ('author', 'Usman'), ('email', 'usman@gmail.com'), ('date', '2021-10-15T12:50:55.354097Z')]), OrderedDict([('title', 'Article Title'), ('author', 'TaHIR'), ('email', 'tahir@gmail.com'), ('date', '2021-10-15T15:21:49.738658Z')])]
+
+
+
+
+
+Step 2(After Model Serialization)
+
+#FOR MODEL SERILAIZATION< RUN THE FOLLOWING IN SHELL:
+
+model_serializer= ArticleSerializer()
+>>> print(repr(model_serializer))
+ArticleSerializer():
+    title = CharField(max_length=100)
+    author = CharField(max_length=100)
+    email = EmailField(max_length=100)
+    date = DateTimeField()
